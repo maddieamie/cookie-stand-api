@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 class="text-2xl font-bold mb-4">Cookie Stand List</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for cookiestand in cookiestands %}
+      <div
+        class="p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+          <a href="{% url 'cookie_stand_detail' cookiestand.id %}">{{ cookiestand.location }}</a>
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          Owner: {{ cookiestand.owner.username }}
+        </p>
+      </div>
+    {% empty %}
+      <p>No cookie stands available.</p>
+    {% endfor %}
+  </div>
+  <a href="{% url 'cookie_stand_create' %}"
+     class="inline-block mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700">
+    Add New Cookie Stand
+  </a>
+{% endblock %}
+
