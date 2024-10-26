@@ -24,11 +24,12 @@ env = environ.Env(
     ALLOW_ALL_ORIGINS=(bool, False),
     ALLOWED_HOSTS=(list, []),
     ALLOWED_ORIGINS=(list, []),
+    CSRF_TRUSTED_ORIGINS=(list, []), # lab 39
     DATABASE_ENGINE=(str, "django.db.backends.sqlite3"),  # Default to SQLite
     DATABASE_NAME=(str, BASE_DIR / "db.sqlite3"),  # Default database path
     DATABASE_USER=(str, ""),
     DATABASE_PASSWORD=(str, ""),
-    DATABASE_HOST=(str, "localhost"),
+    DATABASE_HOST=(str, ""),
     DATABASE_PORT=(int, 5432),  # Default PostgreSQL port
 )
 
