@@ -80,11 +80,11 @@ Manually confirm the API endpoints using API Tester, Postman, or HTTPie. Example
 *List Cookie Stands:*
 
 
-http GET http://localhost:8000/api/cookie_stands/
+http GET http://localhost:8000/api/v1/cookie_stands
 
 *Create a New Cookie Stand:*
 
-http POST http://localhost:8000/api/cookie_stands/ location="New Stand" description="Fresh cookies daily" minimum_customers_per_hour=10 maximum_customers_per_hour=50 average_cookies_per_sale=2.5
+http POST http://localhost:8000/api/v1/cookie_stands location="New Stand" description="Fresh cookies daily" minimum_customers_per_hour=10 maximum_customers_per_hour=50 average_cookies_per_sale=2.5
 
 *Project Structure*
 

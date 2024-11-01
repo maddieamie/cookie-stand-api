@@ -25,16 +25,17 @@ env = environ.Env(
     ALLOWED_HOSTS=(list, []),
     ALLOWED_ORIGINS=(list, []),
     CSRF_TRUSTED_ORIGINS=(list, []), # lab 39
-    DATABASE_ENGINE=(str, "django.db.backends.sqlite3"),  # Default to SQLite
-    DATABASE_NAME=(str, BASE_DIR / "db.sqlite3"),  # Default database path
-    DATABASE_USER=(str, ""),
-    DATABASE_PASSWORD=(str, ""),
-    DATABASE_HOST=(str, ""),
-    DATABASE_PORT=(int, 5432),  # Default PostgreSQL port
+    DB_ENGINE=(str, "django.db.backends.sqlite3"),  # Default to SQLite
+    DB_NAME=(str, BASE_DIR / "db.sqlite3"),  # Default database path
+    DB_USER=(str, ""),
+    DB_PASSWORD=(str, ""),
+    DB_HOST=(str, ""),
+    DB_PORT=(int, 5432),
+    SECRET_KEY=(str)
 )
 
 # Read .env file if it exists
-environ.Env.read_env()
+environ.Env.read_env(BASE_DIR / '.env')
 
 ENVIRONMENT = env.str("ENVIRONMENT")
 
@@ -107,12 +108,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database settings using PostgreSQL
 DATABASES = {
     'default': {
-        'ENGINE': env.str('DATABASE_ENGINE', default='django.db.backends.postgresql'),  # PostgreSQL as default
-        'NAME': env.str('DATABASE_NAME', default='cookie_stand_db'),  # Database name
-        'USER': env.str('DATABASE_USER', default='cookie_user'),  # Database username
-        'PASSWORD': env.str('DATABASE_PASSWORD', default='your_password'),  # Database password
-        'HOST': env.str('DATABASE_HOST', default='localhost'),  # Database host
-        'PORT': env.int('DATABASE_PORT', default=5432),  # PostgreSQL port
+        'ENGINE': env.str('DB_ENGINE', default='django.db.backends.postgresql'),  # PostgreSQL as default
+        'NAME': env.str('DB_NAME', default='cookie_stand_db'),  # Database name
+        'USER': env.str('DB_USER', default='cookie_user'),  # Database username
+        'PASSWORD': env.str('DB_PASSWORD', default='your_password'),  # Database password
+        'HOST': env.str('DB_HOST', default='localhost'),  # Database host
+        'PORT': env.int('DB_PORT', default=5432),  # PostgreSQL port
     }
 }
 
@@ -151,6 +152,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -169,11 +173,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-# SIMPLE_JWT = {
-    #"ACCESS_TOKEN_LIFETIME": timedelta(
-        #seconds=60 * 60
-    #),  # lasts for 60 minutes
-#}
 
 # TOKEN settings if you are using JWT
 SIMPLE_JWT = {
@@ -182,12 +181,11 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': env('SECRET_KEY', default='your_secret_key'),
+    'SIGNING_KEY': env('SECRET_KEY'),
 }
 
-CORS_ORIGIN_WHITELIST = tuple(env.list("ALLOWED_ORIGINS"))
-#CORS_ALLOW_ALL_ORIGINS = env.bool("ALLOW_ALL_ORIGINS")
 CORS_ALLOWED_ORIGINS = env.list("ALLOWED_ORIGINS", default=[])
+
 
 # TAILWIND
 STATICFILES_DIRS = [
